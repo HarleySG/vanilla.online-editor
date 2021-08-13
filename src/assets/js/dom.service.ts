@@ -1,3 +1,6 @@
+import { encode } from 'js-base64';
+import { ICreateDom } from './interfaces';
+
 const $ = (selector: string): HTMLElement | undefined => {
   const el = document.querySelector(selector) as HTMLElement;
   if (el) {
@@ -11,32 +14,30 @@ const $js = $('#js') as HTMLInputElement;
 const $html = $('#html') as HTMLInputElement;
 const $iframe = $('#app_frame') as HTMLIFrameElement;
 
-function handleInput() {
-  const newHtml = newDom();
-
-  $iframe?.setAttribute('srcdoc', newHtml);
-  historyUpdate();
-}
-
-function historyUpdate() {
-  const css = $css.value;
-  const js = $js.value;
-  const html = $html.value;
-
-  const hashedCode = `${btoa(html)}|${btoa(css)}|${btoa(js)}`;
+function updateHash(hashedCode: string): void {
   window.history.replaceState(null, '', `/${hashedCode}`);
 }
 
-function newDom() {
+function encodeDom(): Promise<ICreateDom> {
   const css = $css.value;
   const js = $js.value;
   const html = $html.value;
+  const hashedCode = `${encode(html)}|${encode(css)}|${encode(js)}`;
 
+  updateHash(`/${hashedCode}`);
+
+  return Promise.resolve({ css, js, html });
+}
+
+function updateIframe(newDom: string): void {
+  $iframe?.setAttribute('srcdoc', newDom);
+}
+
+function createDom({ html, css, js }: ICreateDom) {
   return `<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>${css}</style>
   </head>
@@ -48,10 +49,4 @@ function newDom() {
 `;
 }
 
-function codepen() {
-  $html?.addEventListener('input', handleInput);
-  $js?.addEventListener('input', handleInput);
-  $css?.addEventListener('input', handleInput);
-}
-
-export { codepen };
+export { $css, $js, $html, $iframe, createDom, encodeDom, updateIframe };

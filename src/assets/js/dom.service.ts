@@ -24,7 +24,7 @@ function encodeDom(): Promise<ICreateDom> {
   const html = $html.value;
   const hashedCode = `${encode(html)}|${encode(css)}|${encode(js)}`;
 
-  updateHash(`/${hashedCode}`);
+  updateHash(hashedCode);
 
   return Promise.resolve({ css, js, html });
 }

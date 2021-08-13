@@ -1,0 +1,22 @@
+{
+  "name": "codepen",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "serve": "vite preview"
+  },
+  "devDependencies": {
+    "standard": "^16.0.3",
+    "typescript": "^4.3.2",
+    "vite": "^2.4.3"
+  },
+  "dependencies": {
+    "split-grid": "^1.0.11"
+  },
+  "eslintConfig": {
+    "extends": [
+      "./node_modules/standard/eslintrc.json"
+    ]
+  }
+}

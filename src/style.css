@@ -1,0 +1,100 @@
+*, *::after, *::before {
+  box-sizing: border-box;
+}
+
+:root {
+  --theme-editor-bg: #263238;
+  --theme-editor-text-color: #FFF;
+  --theme-editor-placeholder-color: #7e7e7e;
+  --theme-editor-shadow-color: #141d22;
+}
+
+body {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+
+  margin: 0;
+  width: 100%;
+  height: 100vh;
+}
+
+#app {
+  height: 100%;
+  width: 100%;
+  display: grid;
+}
+
+.controls {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.controls [class*='controls_'] {
+  height: 100%;
+  width: 100%;
+  background-color: var(--theme-editor-bg);
+  position: relative;
+}
+
+.controls [class*='controls_']::before {
+  content: attr(title);
+  position: absolute;
+  color: var(--theme-editor-placeholder-color);
+  left: 0.5rem;
+  top: 0.2rem;
+  font-size: 90%;
+}
+
+.controls textarea:active,
+.controls textarea:focus
+{
+  outline: transparent;
+}
+.controls textarea {
+  width: inherit;
+  height: inherit;
+  border: none;
+  resize: none;
+  background-color: transparent;
+  padding: 2rem 1rem 1rem;
+  color: var(--theme-editor-text-color);
+}
+
+#app_frame {
+  width: 100%;
+  height: 100%;
+}
+
+.split{
+  display: grid;
+}
+
+.split-rows {
+  grid-template-rows: 1fr 10px 1fr;
+}
+.split-columns {
+  grid-template-columns: 1fr 10px 1fr 10px 1fr;
+}
+
+.gutter-col,
+.gutter-row {
+  background-color: var(--theme-editor-shadow-color);
+}
+
+.gutter-row {
+  cursor: row-resize;
+}
+
+.gutter-row-1 {
+  grid-column: 1/-1;
+}
+
+.gutter-col {
+  background-color: var(--theme-editor-shadow-color);
+  cursor: col-resize;
+}

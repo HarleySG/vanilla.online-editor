@@ -1,5 +1,5 @@
 import { encode } from 'js-base64';
-import { ICreateDom } from './interfaces';
+import { ICreateDom, IEditorConfig } from './interfaces';
 
 const $ = (selector: string): HTMLElement | undefined => {
   const el = document.querySelector(selector) as HTMLElement;
@@ -18,15 +18,8 @@ function updateHash(hashedCode: string): void {
   window.history.replaceState(null, '', `/${hashedCode}`);
 }
 
-function encodeDom(): Promise<ICreateDom> {
-  const css = $css.value;
-  const js = $js.value;
-  const html = $html.value;
-  const hashedCode = `${encode(html)}|${encode(css)}|${encode(js)}`;
-
-  updateHash(hashedCode);
-
-  return Promise.resolve({ css, js, html });
+function encodeDom({ html, css, js }: ICreateDom): string {
+  return `${encode(html)}|${encode(css)}|${encode(js)}`;
 }
 
 function updateIframe(newDom: string): void {
@@ -49,4 +42,17 @@ function createDom({ html, css, js }: ICreateDom) {
 `;
 }
 
-export { $css, $js, $html, $iframe, createDom, encodeDom, updateIframe };
+function updateEditor({ html, css, js }: IEditorConfig): void {
+  const editorValues = {
+    html: html.config.getValue(),
+    css: css.config.getValue(),
+    js: js.config.getValue(),
+  };
+  const hashedCode = encodeDom(editorValues);
+  const newHtml = createDom(editorValues);
+
+  updateHash(hashedCode);
+  updateIframe(newHtml);
+}
+
+export { $css, $js, $html, updateEditor };

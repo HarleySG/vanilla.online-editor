@@ -13,17 +13,16 @@ body {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
 
   margin: 0;
-  width: 100%;
+  width: 100vw;
   height: 100vh;
 }
 
 #app {
-  height: 100%;
-  width: 100%;
+  height: inherit;
+  width: inherit;
   display: grid;
 }
 
@@ -37,7 +36,7 @@ body {
 .controls [class*='controls_'] {
   height: 100%;
   width: 100%;
-  background-color: var(--theme-editor-bg);
+  /* background-color: var(--theme-editor-bg); */
   position: relative;
 }
 
@@ -45,24 +44,11 @@ body {
   content: attr(title);
   position: absolute;
   color: var(--theme-editor-placeholder-color);
-  left: 0.5rem;
-  top: 0.2rem;
+  right: 2rem;
+  bottom: 1rem;
   font-size: 90%;
-}
-
-.controls textarea:active,
-.controls textarea:focus
-{
-  outline: transparent;
-}
-.controls textarea {
-  width: inherit;
-  height: inherit;
-  border: none;
-  resize: none;
-  background-color: transparent;
-  padding: 2rem 1rem 1rem;
-  color: var(--theme-editor-text-color);
+  z-index: 1;
+  user-select: none;
 }
 
 #app_frame {
